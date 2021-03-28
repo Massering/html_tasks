@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="list">
+    <h2>{{ table_title }}</h2>
+    {% for item in list %}
+    <div>
+        <h4>Job №{{ loop.index }}</h4>
+        <table>
+            <tr>
+                {% for i in titles %}
+                    <th width="{{ column_sizes[ loop.index0 ] }}"> {{ i }} </th>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for i in item %}
+                    <td width="{{ column_sizes[ loop.index0 ] }}"> {{ i }} </td>
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+    <blockquote></blockquote>
+    {% endfor %}
+</form>
+{% endblock %}
