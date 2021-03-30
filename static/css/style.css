@@ -6,6 +6,7 @@ form.login_form {
     border: 1px solid gray;
     border-radius: 5px;
     padding: 10px;
+    text-indent: 25px;
 }
 form.list {
     margin-top: 50px;
@@ -17,6 +18,19 @@ form.list {
     text-align: center;
     border: 1px solid gray;
     border-radius: 5px;
+}
+form.successful {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 550px;
+    min-height: 180px;
+    background-color: #eeffee;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid gray;
+    border-color: #22aa22;
+    border-radius: 10px;
 }
 img {
     padding: 10px;
@@ -48,12 +62,13 @@ label {
 }
 input {
     margin-left: 50px;
-    max-width: 450px;
+    max-width: 480px;
 }
 button {
     margin-left: 55px;
     margin-top: 5px;
     padding: 10px;
+    width: 55px;
 }
 table {
     margin-left: auto;
