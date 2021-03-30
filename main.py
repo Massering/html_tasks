@@ -1,10 +1,10 @@
-from flask import Flask, render_template, url_for, request, make_response, redirect
+from flask import Flask, render_template, request, make_response, redirect
 
-from werkzeug.security import generate_password_hash, check_password_hash
-
+from data import jobs_api
 from data.db_session import global_init, create_session
 from data.users import User
 from data.jobs import Jobs
+from data.departments import Department
 
 from forms.user import RegisterForm
 
@@ -12,18 +12,15 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
-def set_password(self, password):
-    self.hashed_password = generate_password_hash(password)
-
-
-def check_password(self, password):
-    return check_password_hash(self.hashed_password, password)
-
-
 @app.route('/')
 @app.route('/index')
 def homepage():
-    return render_template('home_page.html', title='Домашняя страница')
+    links = [
+        ('/jobs', 'Лист работ'),
+        ('/register', 'Регистрация'),
+        ('', ''),
+    ]
+    return render_template('home_page.html', title='Домашняя страница', links=links)
 
 
 @app.route('/jobs')
@@ -60,7 +57,7 @@ def register():    # http://127.0.0.1:5000/register
             address=form.address.data,
             email=form.email.data
         )
-        user.hashed_password = generate_password_hash(form.password.data)
+        user.set_password(form.password.data)
         session.add(user)
         session.commit()
         return redirect('/successful_register')
@@ -75,4 +72,5 @@ def successful_registr():
 if __name__ == '__main__':
     global_init('db/blogs.db')
 
+    app.register_blueprint(jobs_api.blueprint)
     app.run(debug=True)

@@ -2,6 +2,7 @@
 
 {% block content %}
     <h2>Добро пожаловать на наш сайт!</h2>
-    <h3><a href="/jobs" class="alert-link">Лист работ</a></h3>
-    <h3><a href="/register" class="alert-link">Регистрация</a></h3>
+    {% for href, title in links %}
+        <h4><a href="{{ href }}" class="alert-link">{{ title }}</a></h4>
+    {% endfor %}
 {% endblock %}

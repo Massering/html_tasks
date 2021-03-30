@@ -1,21 +1,21 @@
 from datetime import datetime, timedelta
 import sqlalchemy
-from sqlalchemy import Column as Col
-from data.db_session import SqlAlchemyBase, create_session
+from sqlalchemy import Column, orm
+from data.db_session import SqlAlchemyBase
 from data.users import User
 
 
 class Jobs(SqlAlchemyBase):
     __tablename__ = 'jobs'
 
-    id = Col(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    team_leader = Col(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
-    job = Col(sqlalchemy.String)
-    work_size = Col(sqlalchemy.Integer)
-    collaborators = Col(sqlalchemy.String)
-    start_date = Col(sqlalchemy.DateTime, default=datetime.now)
-    end_date = Col(sqlalchemy.DateTime, default=lambda: datetime.now() + timedelta(days=1))
-    is_finished = Col(sqlalchemy.Boolean)
+    id = Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    team_leader = Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
+    job = Column(sqlalchemy.String)
+    work_size = Column(sqlalchemy.Integer)
+    collaborators = Column(sqlalchemy.String)
+    start_date = Column(sqlalchemy.DateTime, default=datetime.now)
+    end_date = Column(sqlalchemy.DateTime, default=lambda: datetime.now() + timedelta(days=1))
+    is_finished = Column(sqlalchemy.Boolean)
 
     def values(self, session):
         leader = session.query(User).filter(User.id == self.team_leader)[0]
