@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response, redirect
+from flask import Flask, render_template, request, make_response, redirect, jsonify
 
 from data import jobs_api
 from data.db_session import global_init, create_session
@@ -21,6 +21,11 @@ def homepage():
         ('', ''),
     ]
     return render_template('home_page.html', title='Домашняя страница', links=links)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 @app.route('/jobs')
@@ -48,6 +53,7 @@ def register():    # http://127.0.0.1:5000/register
             return render_template('register_form.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже существует")
+
         user = User(
             surname=form.surname.data,
             name=form.name.data,

@@ -2,10 +2,11 @@ from datetime import datetime, timedelta
 import sqlalchemy
 from sqlalchemy import Column, orm
 from data.db_session import SqlAlchemyBase
+from sqlalchemy_serializer.serializer import SerializerMixin
 from data.users import User
 
 
-class Jobs(SqlAlchemyBase):
+class Jobs(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'jobs'
 
     id = Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
@@ -15,7 +16,7 @@ class Jobs(SqlAlchemyBase):
     collaborators = Column(sqlalchemy.String)
     start_date = Column(sqlalchemy.DateTime, default=datetime.now)
     end_date = Column(sqlalchemy.DateTime, default=lambda: datetime.now() + timedelta(days=1))
-    is_finished = Column(sqlalchemy.Boolean)
+    is_finished = Column(sqlalchemy.Boolean, default=False)
 
     def values(self, session):
         leader = session.query(User).filter(User.id == self.team_leader)[0]
