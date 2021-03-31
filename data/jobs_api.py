@@ -54,39 +54,38 @@ def create_job():
     return jsonify({'success': 'OK'})
 
 
-@blueprint.route('/api/delete_job', methods=['POST'])
-def delete_job():
+@blueprint.route('/api/jobs/<int:job_id>', methods=['DELETE'])
+def delete_job(job_id):
     if not request.json:
         return jsonify({'error': 'Empty request'})
     if 'id' not in request.json:
         return jsonify({'error': 'Bad request'})
 
     session = db_session.create_session()
-    if not session.query(Jobs).filter(Jobs.id == request.json['id']).first():
+    job = session.query(Jobs).filter(Jobs.id == job_id).first()
+    if not job:
         return jsonify({'error': 'Job not exists'})
 
-    session.delete(session.query(Jobs).filter(Jobs.id == request.json['id']).first())
+    session.delete(job)
     session.commit()
 
     return jsonify({'success': 'OK'})
 
 
-@blueprint.route('/api/update_job', methods=['POST'])
-def update_job():
+@blueprint.route('/api/jobs/<int:job_id>', methods=['PUT'])
+def update_job(job_id):
     if not request.json:
         return jsonify({'error': 'Empty request'})
     if 'id' not in request.json:
         return jsonify({'error': 'Bad request'})
 
     session = db_session.create_session()
-    if not session.query(Jobs).filter(Jobs.id == request.json['id']).first():
+    job = session.query(Jobs).filter(Jobs.id == job_id).first()
+    if not job:
         return jsonify({'error': 'Job not exists'})
 
-    job = session.query(Jobs).filter(Jobs.id == request.json['id']).first()
     for key, value in request.json.items():
-        if key == 'id':
-            job.id = value
-        elif key == 'team_leader':
+        if key == 'team_leader':
             job.team_leader = value
         elif key == 'job':
             job.job = value
