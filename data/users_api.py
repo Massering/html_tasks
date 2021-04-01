@@ -1,12 +1,13 @@
-from flask import jsonify, Blueprint, request
+from flask import jsonify, Blueprint, request, render_template
 
 from . import db_session
 from .users import User
+from data.yandex_maps import save_picture_by_name
 
 from werkzeug.security import generate_password_hash
 
 blueprint = Blueprint(
-    'news_api',
+    'users_api',
     __name__,
     template_folder='templates'
 )
@@ -32,12 +33,28 @@ def get_user_by_id(user_id):
     return jsonify(user.to_dict())
 
 
+@blueprint.route('/users_show/<int:user_id>')
+def get_city_by_id(user_id):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == int(user_id)).first()
+
+    picture_filename = f'/static/img/cities/city_of_user_{user_id}.png'
+    save_picture_by_name(user.city_from, picture_filename[1:])
+
+    return render_template('user_city_view.html',
+                           title=f'Родной город астронавта {user.surname} {user.name}',
+                           img_filename=picture_filename,
+                           city_name=user.city_from
+                           )
+
+
 @blueprint.route('/api/users', methods=['POST'])
 def create_user():
     if not request.json:
         return jsonify({'error': 'Empty request'})
-    if not all(key in request.json for key in
-               ['surname', 'name', 'age', 'position', 'speciality', 'address', 'email', 'hashed_password']):
+    required_keys = ['surname', 'name', 'age', 'position',
+                     'speciality', 'address', 'email', 'hashed_password']
+    if not all(key in request.json for key in required_keys):
         return jsonify({'error': 'Bad request'})
 
     session = db_session.create_session()

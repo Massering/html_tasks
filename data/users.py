@@ -17,6 +17,7 @@ class User(SqlAlchemyBase, SerializerMixin):
     position = Column(sqlalchemy.String)
     speciality = Column(sqlalchemy.String)
     address = Column(sqlalchemy.String)
+    city_from = Column(sqlalchemy.String)
     email = Column(sqlalchemy.String, unique=True)
     hashed_password = Column(sqlalchemy.String)
     modified_date = Column(sqlalchemy.DateTime, default=datetime.datetime.now)

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, make_response, redirect, jsonify
 
 from data import jobs_api
+from data import users_api
 from data.db_session import global_init, create_session
 from data.users import User
 from data.jobs import Jobs
@@ -79,4 +80,5 @@ if __name__ == '__main__':
     global_init('db/blogs.db')
 
     app.register_blueprint(jobs_api.blueprint)
+    app.register_blueprint(users_api.blueprint)
     app.run(debug=True)
