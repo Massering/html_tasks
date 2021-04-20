@@ -6,6 +6,7 @@ from data.db_session import global_init, create_session
 from data.users import User
 from data.jobs import Jobs
 from data.departments import Department
+from data.categories import Category
 
 from forms.user import RegisterForm, LoginForm
 from forms.jobs import JobsForm
@@ -87,9 +88,9 @@ def logout():
 def jobs_list():
     session = create_session()
 
-    titles = ['Title', 'Team leader', 'Duration', 'Collaborators', 'Is finished']
+    titles = ['Title', 'Team leader', 'Duration', 'Collaborators', 'Category', 'Is finished']
     jobs = [job.values() for job in session.query(Jobs).all()]
-    sizes = [220, 120, 100, 180, 100]
+    sizes = [220, 120, 80, 180, 80, 100]
 
     return render_template('jobs.html', title='Список работ',
                            column_sizes=sizes, titles=titles, list=jobs, current_user=current_user)
@@ -112,6 +113,7 @@ def add_job():
             surname, name = collaborator.split()
             collaborators.append(session.query(User).filter(User.surname == surname, User.name == name).first().id)
         job.collaborators = ', '.join(map(str, collaborators))
+        job.category = session.query(Category).filter(Category.name == form.category.data).first()
         job.is_finished = form.is_finished.data
 
         session.add(job)
@@ -139,6 +141,7 @@ def update_job(id):
             collaborators.append(session.query(User).filter(User.surname == surname,
                                                             User.name == name).first().id)
         job.collaborators = ', '.join(map(str, collaborators))
+        job.category = session.query(Category).filter(Category.name == form.category.data).first().id
         job.is_finished = form.is_finished.data
 
         session.commit()
@@ -155,6 +158,7 @@ def update_job(id):
     for collaborator in job.collaborators.split(', '):
         collaborators.append(session.query(User).filter(User.id == collaborator).first().fio())
     form.collaborators.data = ', '.join(collaborators)
+    form.category.data = session.query(Category).filter(Category.id == job.category).first().name
     form.is_finished.data = job.is_finished
 
     return render_template('job.html', title=f"Редактирование работы", form=form)

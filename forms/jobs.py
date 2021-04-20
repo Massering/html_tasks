@@ -7,5 +7,6 @@ class JobsForm(FlaskForm):
     job = StringField('Название', validators=[DataRequired()])
     work_size = IntegerField('Время на работу (в часах)', validators=[DataRequired()])
     collaborators = StringField('Участники (ФИ через запятую)', validators=[DataRequired()])
+    category = StringField('Название категории', validators=[DataRequired()])
     is_finished = BooleanField('Уже выполнена')
     submit = SubmitField('ОК')
