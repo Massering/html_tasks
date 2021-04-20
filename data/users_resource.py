@@ -31,13 +31,23 @@ class UsersListResource(Resource):
     def post(self):
         args = parser.parse_args()
         session = create_session()
+
+        if args['password'] != args['password_again']:
+            abort(400, message='Passwords are not the same')
+
+        if session.query(User).filter(User.email == args['email']).first():
+            abort(400, message='User with that email already exist')
+
         user = User(
-            title=args['title'],
-            content=args['content'],
-            user_id=args['user_id'],
-            is_published=args['is_published'],
-            is_private=args['is_private']
+            email=args['email'],
+            surname=args['surname'],
+            name=args['name'],
+            age=args['age'],
+            position=args['position'],
+            speciality=args['speciality'],
+            address=args['address']
         )
+        user.set_password(args['password'])
         session.add(user)
         session.commit()
         return jsonify({'success': 'OK'})
@@ -49,8 +59,12 @@ def abort_if_users_not_found(id):
 
 
 parser = reqparse.RequestParser()
-parser.add_argument('title', required=True)
-parser.add_argument('content', required=True)
-parser.add_argument('is_private', required=True, type=bool)
-parser.add_argument('is_published', required=True, type=bool)
-parser.add_argument('user_id', required=True, type=int)
+parser.add_argument('email', required=True)
+parser.add_argument('password', required=True)
+parser.add_argument('password_again', required=True)
+parser.add_argument('surname', required=True)
+parser.add_argument('name', required=True)
+parser.add_argument('age', type=int)
+parser.add_argument('position')
+parser.add_argument('speciality')
+parser.add_argument('address')
