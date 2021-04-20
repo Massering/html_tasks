@@ -2,12 +2,14 @@
 
 {% block content %}
 <form class="list">
-    <h2>{{ table_title }}</h2>
+    <h2>Список работ</h2>
     {% for item in list %}
     <div>
-        <h4>{{ item_name }} №{{ loop.index }}
-            <a href="/add_job/{{ loop.index }}" style="font-size: 20px; color: #0000ff;">✎</a>
-            <a method="delete" href="/delete_job/{{ loop.index }}" style="font-size: 20px; color: #ff0000;">❌</a>
+        <h4>Job №{{ item[0].id }}
+            {% if current_user and (current_user.id == 1 or current_user.id == item[0].team_leader) %}
+                <a href="/add_job/{{ item[0].id }}" style="font-size: 20px; color: #0000ff;">✎</a>
+                <a href="/delete_job/{{ item[0].id }}" style="font-size: 20px; color: #ff0000;">❌</a>
+            {% endif %}
         </h4>
         <table>
             <tr>
@@ -16,7 +18,7 @@
                 {% endfor %}
             </tr>
             <tr>
-                {% for value in item %}
+                {% for value in item[1:] %}
                     <td width="{{ column_sizes[ loop.index0 ] }}"> {{ value }} </td>
                 {% endfor %}
             </tr>
@@ -24,8 +26,6 @@
     </div>
     <blockquote></blockquote>
     {% endfor %}
-    {% if href_to_add %}
-    <a class="btn" href="{{ href_to_add }}">Добавить</a>
-    {% endif %}
+    <a class="btn" href="/add_job">Добавить</a>
 </form>
 {% endblock %}

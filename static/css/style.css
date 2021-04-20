@@ -1,57 +1,67 @@
-form.login_form {
+form {
+    margin-top: 30px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
-    width: 600px;
-    background-color: #cccccc;
     border: 1px solid gray;
     border-radius: 5px;
     padding: 10px;
+}
+form.login_form {
+    width: 600px;
+    background-color: #cccccc;
     text-indent: 25px;
 }
 form.list {
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 700px;
-    background-color: #ffffff;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid gray;
-    border-radius: 5px;
+    min-width: 400px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    text-indent: 25px;
 }
 form.standard {
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
     width: 700px;
     background-color: #ffffff;
-    padding: 10px;
     text-align: center;
-    border: 1px solid gray;
     border-color: #ffffff;
     border-radius: 10px;
 }
 form.successful {
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
     width: 550px;
     min-height: 180px;
     background-color: #eeffee;
-    padding: 10px;
     text-align: center;
     border: 2px solid gray;
     border-color: #22aa22;
     border-radius: 10px;
 }
-img {
-    padding: 10px;
-}
-nav {
-    background-color: #eeeefe;
+p.checkmark {
+    text-indent: 5px;
 }
 a {
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    color: #050505;
+}
+img {
+    padding: 5px;
+}
+nav {
+    min-height: 50px;
+    background-color: #eeeefe;
+}
+.navbar {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+a.navbar-brand {
     margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+p {
+    margin-bottom: 0px;
 }
 h1 {
     margin-left: auto;
@@ -66,7 +76,6 @@ h3 {
     padding: 5px;
 }
 h4 {
-    margin-right: 500px;
     padding: 5px;
 }
 label {
@@ -82,6 +91,12 @@ button {
     padding: 10px;
     width: 55px;
 }
+.btn {
+    margin-left: 40px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    text-indent: 0px;
+}
 table {
     margin-left: auto;
     margin-right: auto;
@@ -96,6 +111,7 @@ th {
     text-align: center;
 }
 td {
+    text-align: center;
     border: 1px solid gray;
     background-color: #ddddff;
     max-width: 300px;

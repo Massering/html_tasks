@@ -1,13 +1,14 @@
+from werkzeug.security import generate_password_hash, check_password_hash
+
 import datetime
 import sqlalchemy
 from sqlalchemy_serializer.serializer import SerializerMixin
+from flask_login import UserMixin
 from sqlalchemy import Column
 from data.db_session import SqlAlchemyBase
 
-from werkzeug.security import generate_password_hash, check_password_hash
 
-
-class User(SqlAlchemyBase, SerializerMixin):
+class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'users'
 
     id = Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
@@ -24,6 +25,9 @@ class User(SqlAlchemyBase, SerializerMixin):
 
     def __repr__(self):
         return f'<Colonist> {self.id} {self.surname} {self.name}'
+
+    def fio(self):
+        return self.surname + ' ' + self.name
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

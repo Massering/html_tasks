@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
 import sqlalchemy
-from sqlalchemy import Column, orm
+from sqlalchemy import Column
 from data.db_session import SqlAlchemyBase
 from sqlalchemy_serializer.serializer import SerializerMixin
 from data.users import User
+from data.db_session import create_session
 
 
 class Jobs(SqlAlchemyBase, SerializerMixin):
@@ -18,13 +19,17 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
     end_date = Column(sqlalchemy.DateTime, default=lambda: datetime.now() + timedelta(days=1))
     is_finished = Column(sqlalchemy.Boolean, default=False)
 
-    def values(self, session):
+    def values(self):
+        session = create_session()
         leader = session.query(User).filter(User.id == self.team_leader)[0]
         leader = leader.surname + ' ' + leader.name + ' (' + leader.position + ')'
         work_size = str(self.work_size) + [' hours', ' hour'][self.work_size == 1]
         is_finished = ["Is not finished", "Is finished"][self.is_finished]
+        collaborators = []
+        for collaborator in self.collaborators.split(','):
+            collaborators.append(session.query(User).filter(User.id == collaborator).first().fio())
 
-        return [self.job, leader, work_size, self.collaborators, is_finished][:]
+        return [self, self.job, leader, work_size, ', '.join(map(str, collaborators)), is_finished][:]
 
     def __repr__(self):
-        return f'<Job #{self.id}> {self.job}'
+        return f'<Job #{self.id}> {self.job} {self.team_leader}'
