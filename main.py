@@ -1,4 +1,5 @@
 from flask import Flask, render_template, make_response, redirect, jsonify
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_restful import Api
 
 from data import jobs_api
@@ -9,20 +10,26 @@ from data.jobs import Jobs
 from data.departments import Department
 from data.categories import Category
 from data import users_resource
+from data import jobs_resource
 
 from forms.users import RegisterForm, LoginForm
 from forms.jobs import JobsForm
 from forms.departments import DepartmentsForm
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 api = Api(app)
+
 # для списка пользователей
 api.add_resource(users_resource.UsersListResource, '/api/v2/users')
 # для одного пользователя
 api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:user_id>')
+
+# для списка работ
+api.add_resource(jobs_resource.JobsListResource, '/api/v2/jobs')
+# для одной работы
+api.add_resource(jobs_resource.JobsResource, '/api/v2/jobs/<int:job_id>')
 
 login_manager = LoginManager()
 login_manager.init_app(app)

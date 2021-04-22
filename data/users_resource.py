@@ -1,5 +1,6 @@
 from flask_restful import reqparse, abort, Resource
 from flask import jsonify
+
 from data.db_session import create_session
 from data.users import User
 
@@ -43,9 +44,9 @@ class UsersListResource(Resource):
             surname=args['surname'],
             name=args['name'],
             age=args['age'],
-            position=args['position'],
-            speciality=args['speciality'],
-            address=args['address']
+            position=args.get('position', None),
+            speciality=args.get('speciality', None),
+            address=args.get('address', None)
         )
         user.set_password(args['password'])
         session.add(user)

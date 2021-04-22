@@ -5,18 +5,19 @@ form {
     margin-right: auto;
     border: 1px solid gray;
     border-radius: 5px;
-    padding: 10px;
+    padding: 30px;
 }
 form.login_form {
     width: 600px;
     background-color: #cccccc;
-    text-indent: 25px;
+    text-indent: 5px;
+    padding: 55px;
 }
 form.list {
     min-width: 400px;
     max-width: 800px;
     background-color: #f9f9f9;
-    text-indent: 25px;
+    text-indent: 5px;
 }
 form.standard {
     width: 700px;
@@ -67,7 +68,6 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     max-width: 600px;
-    padding: 20px;
 }
 h2 {
     padding: 5px;
@@ -82,19 +82,18 @@ label {
     font: 30px;
 }
 input {
-    margin-left: 50px;
+    margin-left: 0px;
     max-width: 480px;
 }
 button {
-    margin-left: 55px;
+    margin-left: 5px;
     margin-top: 5px;
     padding: 10px;
     width: 55px;
 }
 .btn {
-    margin-left: 40px;
+    margin: 5px;
     border: 1px solid gray;
-    border-radius: 10px;
     text-indent: 0px;
 }
 table {
@@ -107,12 +106,12 @@ th {
     border: 1px solid gray;
     background-color: #dddddd;
     padding: 7px;
-    border-left: 25px;
     text-align: center;
 }
 td {
     text-align: center;
     border: 1px solid gray;
     background-color: #ddddff;
+    padding: 7px;
     max-width: 300px;
 }

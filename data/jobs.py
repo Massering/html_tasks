@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
+
 import sqlalchemy
 from sqlalchemy import Column
-from data.db_session import SqlAlchemyBase
 from sqlalchemy_serializer.serializer import SerializerMixin
+
+from data.db_session import SqlAlchemyBase
 from data.users import User
 from data.categories import Category
 from data.db_session import create_session
