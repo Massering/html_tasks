@@ -1,12 +1,11 @@
-from datetime import datetime
-
-from flask_restful import reqparse, abort, Resource
+from flask_restful import abort, Resource
 from flask import jsonify
 
 from data.db_session import create_session
 from data.users import User
 from data.jobs import Jobs
 from data.categories import Category
+from data.job_parser import parser
 
 
 class JobsResource(Resource):
@@ -73,14 +72,3 @@ class JobsListResource(Resource):
 def abort_if_job_not_found(id):
     if not create_session().query(Jobs).get(id):
         abort(404, message=f"Job #{id} is not found")
-
-
-parser = reqparse.RequestParser()
-parser.add_argument('team_leader', required=True)
-parser.add_argument('job', required=True)
-parser.add_argument('work_size', required=True, type=int)
-parser.add_argument('collaborators', required=True)
-parser.add_argument('category', required=True)
-parser.add_argument('is_finished', type=bool)
-parser.add_argument('start_date', type=type(datetime.now()))
-parser.add_argument('end_date')
